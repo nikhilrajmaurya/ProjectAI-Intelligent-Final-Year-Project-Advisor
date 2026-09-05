@@ -193,7 +193,7 @@ export const SettingsPage: React.FC = () => {
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-cyan-400" />
-                  <h4 className="text-xs font-bold text-white">Google Gemini 2.5 Flash</h4>
+                  <h4 className="text-xs font-bold text-white">Google Gemini</h4>
                   <span
                     className={`text-[10px] font-mono px-2 py-0.2 rounded-full border ${
                       geminiStatus.configured

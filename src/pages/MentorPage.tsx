@@ -10,6 +10,8 @@ import {
   FolderKanban,
   Trash2,
   Terminal,
+  RotateCcw,
+  AlertCircle,
 } from 'lucide-react';
 import { useProjectStore } from '../store/projectStore';
 import { useMentorStore } from '../store/mentorStore';
@@ -17,8 +19,8 @@ import { DashboardLayout } from '../components/layout/DashboardLayout';
 import { Button } from '../components/common/Button';
 
 export const MentorPage: React.FC = () => {
-  const { activeProject, roadmap } = useProjectStore();
-  const { messages, isLoading, sendMessage, clearChat, initializeDefaultGreeting } =
+  const { activeProject, roadmap, blueprint, currentFormValues } = useProjectStore();
+  const { messages, isLoading, sendMessage, retryLastMessage, clearChat, initializeDefaultGreeting } =
     useMentorStore();
 
   const [inputMessage, setInputMessage] = useState('');
@@ -44,31 +46,48 @@ export const MentorPage: React.FC = () => {
     'How should I deploy it?',
   ];
 
+  const getProjectContext = () => {
+    if (activeProject) {
+      return {
+        projectId: activeProject.id,
+        projectTitle: activeProject.title,
+        domain: activeProject.domain,
+        difficulty: activeProject.difficulty,
+        technologies: activeProject.requiredTechnologies,
+        currentMilestone: roadmap?.milestones[0]?.title || 'Architecture & Planning',
+        problemStatement: activeProject.problemStatement,
+        features: [
+          ...(activeProject.mvpFeatures || []),
+          ...(activeProject.futureFeatures || []),
+        ],
+        architecture: blueprint
+          ? `${blueprint.architecture.pattern}; Frontend: ${blueprint.frontend.framework}; Backend: ${blueprint.backend.framework}; DB: ${blueprint.database.primary}`
+          : activeProject.architectureSummary,
+        roadmapSummary: roadmap ? `${roadmap.totalWeeks} weeks total (${roadmap.milestones.length} milestones)` : undefined,
+        studentSkills: currentFormValues?.skills,
+        constraints: currentFormValues?.constraints,
+      };
+    }
+
+    return {
+      projectId: 'default',
+      projectTitle: 'Final Year Engineering Project',
+      domain: 'Computer Science',
+      difficulty: 'Intermediate',
+      technologies: ['React', 'TypeScript', 'Node.js', 'PostgreSQL'],
+    };
+  };
+
   const handleSend = async (textToSend?: string) => {
     const query = textToSend || inputMessage;
     if (!query.trim() || isLoading) return;
 
     setInputMessage('');
+    await sendMessage(query, getProjectContext());
+  };
 
-    const context = activeProject
-      ? {
-          projectId: activeProject.id,
-          projectTitle: activeProject.title,
-          domain: activeProject.domain,
-          difficulty: activeProject.difficulty,
-          technologies: activeProject.requiredTechnologies,
-          currentMilestone: roadmap?.milestones[0]?.title || 'Architecture & Planning',
-          problemStatement: activeProject.problemStatement,
-        }
-      : {
-          projectId: 'default',
-          projectTitle: 'Final Year Engineering Project',
-          domain: 'Computer Science',
-          difficulty: 'Intermediate',
-          technologies: ['React', 'TypeScript', 'Node.js', 'PostgreSQL'],
-        };
-
-    await sendMessage(query, context);
+  const handleRetry = async () => {
+    await retryLastMessage(getProjectContext());
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -84,67 +103,153 @@ export const MentorPage: React.FC = () => {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  // Helper to format basic markdown (headers, bold, code blocks)
+  // Helper to format inline markdown (bold text, inline code)
+  const renderInline = (text: string) => {
+    // Split by inline code `...`
+    const codeParts = text.split(/(`[^`]+`)/g);
+    return codeParts.map((part, pIdx) => {
+      if (part.startsWith('`') && part.endsWith('`')) {
+        return (
+          <code
+            key={pIdx}
+            className="px-1.5 py-0.5 mx-0.5 rounded-md bg-slate-800/80 border border-white/[0.08] font-mono text-[11px] text-cyan-300"
+          >
+            {part.slice(1, -1)}
+          </code>
+        );
+      }
+
+      // Split by bold **...**
+      const boldParts = part.split(/(\*\*[^*]+\*\*)/g);
+      return boldParts.map((bPart, bIdx) => {
+        if (bPart.startsWith('**') && bPart.endsWith('**')) {
+          return (
+            <strong key={bIdx} className="font-semibold text-white">
+              {bPart.slice(2, -2)}
+            </strong>
+          );
+        }
+        return bPart;
+      });
+    });
+  };
+
+  // Helper to format mentor markdown cleanly
   const renderFormattedContent = (content: string) => {
     const lines = content.split('\n');
-    return (
-      <div className="space-y-2 text-xs sm:text-sm leading-relaxed">
-        {lines.map((line, idx) => {
-          if (line.startsWith('### ')) {
-            return (
-              <h4 key={idx} className="text-sm font-bold text-white pt-2 border-b border-white/[0.06] pb-1">
-                {line.replace('### ', '')}
-              </h4>
-            );
-          }
-          if (line.startsWith('#### ')) {
-            return (
-              <h5 key={idx} className="text-xs font-bold text-cyan-300 pt-1">
-                {line.replace('#### ', '')}
-              </h5>
-            );
-          }
-          if (line.startsWith('- ') || line.startsWith('* ')) {
-            return (
-              <div key={idx} className="flex items-start gap-2 pl-2">
-                <span className="text-cyan-400 font-bold">&bull;</span>
-                <span>{line.replace(/^[-*]\s+/, '')}</span>
+    let inCodeBlock = false;
+    let codeBlockLang = '';
+    const codeLines: string[] = [];
+    const elements: React.ReactNode[] = [];
+
+    const flushCodeBlock = (key: string) => {
+      if (codeLines.length > 0) {
+        elements.push(
+          <div
+            key={key}
+            className="my-2 p-3 rounded-xl bg-slate-950 border border-white/[0.08] font-mono text-[11px] text-cyan-300 overflow-x-auto flex flex-col gap-1"
+          >
+            {codeBlockLang && (
+              <div className="flex items-center gap-1.5 text-[10px] text-slate-500 font-mono pb-1 border-b border-white/[0.06] mb-1">
+                <Terminal className="w-3 h-3" />
+                <span>{codeBlockLang}</span>
               </div>
-            );
-          }
-          if (line.startsWith('1. ') || line.startsWith('2. ') || line.startsWith('3. ') || line.startsWith('4. ')) {
-            return (
-              <div key={idx} className="flex items-start gap-2 pl-2 font-medium">
-                <span className="text-blue-400 font-mono">{line.slice(0, 3)}</span>
-                <span>{line.slice(3)}</span>
-              </div>
-            );
-          }
-          if (line.startsWith('> ')) {
-            return (
-              <blockquote
-                key={idx}
-                className="pl-3 py-1 my-1.5 border-l-2 border-cyan-400/60 bg-blue-950/20 rounded-r-lg text-slate-300 italic"
-              >
-                {line.replace('> ', '')}
-              </blockquote>
-            );
-          }
-          if (line.startsWith('```')) {
-            return (
-              <div key={idx} className="my-2 p-3 rounded-xl bg-slate-950 border border-white/[0.08] font-mono text-[11px] text-cyan-300 overflow-x-auto flex items-center gap-2">
-                <Terminal className="w-3.5 h-3.5 text-slate-500" />
-                <span>{line.replace(/```[a-z]*/, '')}</span>
-              </div>
-            );
-          }
-          if (!line.trim()) {
-            return <div key={idx} className="h-1" />;
-          }
-          return <p key={idx}>{line}</p>;
-        })}
-      </div>
-    );
+            )}
+            <pre className="m-0 whitespace-pre font-mono">{codeLines.join('\n')}</pre>
+          </div>
+        );
+        codeLines.length = 0;
+        codeBlockLang = '';
+      }
+    };
+
+    lines.forEach((line, idx) => {
+      const trimmed = line.trim();
+
+      if (trimmed.startsWith('```')) {
+        if (inCodeBlock) {
+          flushCodeBlock(`code-block-${idx}`);
+          inCodeBlock = false;
+        } else {
+          inCodeBlock = true;
+          codeBlockLang = trimmed.slice(3).trim();
+        }
+        return;
+      }
+
+      if (inCodeBlock) {
+        codeLines.push(line);
+        return;
+      }
+
+      if (line.startsWith('### ')) {
+        elements.push(
+          <h4 key={idx} className="text-sm font-bold text-white pt-1">
+            {renderInline(line.replace('### ', ''))}
+          </h4>
+        );
+        return;
+      }
+
+      if (line.startsWith('#### ')) {
+        elements.push(
+          <h5 key={idx} className="text-xs font-bold text-cyan-300 pt-0.5">
+            {renderInline(line.replace('#### ', ''))}
+          </h5>
+        );
+        return;
+      }
+
+      if (line.startsWith('- ') || line.startsWith('* ')) {
+        elements.push(
+          <div key={idx} className="flex items-start gap-2 pl-2">
+            <span className="text-cyan-400 font-bold leading-5">&bull;</span>
+            <span className="leading-relaxed">{renderInline(line.replace(/^[-*]\s+/, ''))}</span>
+          </div>
+        );
+        return;
+      }
+
+      const numMatch = line.match(/^(\d+\.)\s+(.+)$/);
+      if (numMatch) {
+        elements.push(
+          <div key={idx} className="flex items-start gap-2 pl-2">
+            <span className="text-blue-400 font-mono font-medium text-xs leading-5">{numMatch[1]}</span>
+            <span className="leading-relaxed">{renderInline(numMatch[2])}</span>
+          </div>
+        );
+        return;
+      }
+
+      if (line.startsWith('> ')) {
+        elements.push(
+          <blockquote
+            key={idx}
+            className="pl-3 py-1 my-1.5 border-l-2 border-cyan-400/60 bg-blue-950/20 rounded-r-lg text-slate-300 italic"
+          >
+            {renderInline(line.replace('> ', ''))}
+          </blockquote>
+        );
+        return;
+      }
+
+      if (!trimmed) {
+        elements.push(<div key={idx} className="h-1" />);
+        return;
+      }
+
+      elements.push(
+        <p key={idx} className="leading-relaxed">
+          {renderInline(line)}
+        </p>
+      );
+    });
+
+    if (inCodeBlock) {
+      flushCodeBlock('code-block-end');
+    }
+
+    return <div className="space-y-2 text-xs sm:text-sm leading-relaxed">{elements}</div>;
   };
 
   return (
@@ -254,12 +359,27 @@ export const MentorPage: React.FC = () => {
                   {/* Message Body */}
                   {isUser ? (
                     <p className="text-xs sm:text-sm leading-relaxed">{msg.content}</p>
+                  ) : msg.isError ? (
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2 text-rose-400">
+                        <AlertCircle className="w-4 h-4 shrink-0" />
+                        <p className="text-xs sm:text-sm font-medium">{msg.content}</p>
+                      </div>
+                      <button
+                        onClick={handleRetry}
+                        disabled={isLoading}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-rose-300 text-xs font-medium transition-colors cursor-pointer disabled:opacity-50"
+                      >
+                        <RotateCcw className="w-3 h-3" />
+                        <span>Retry</span>
+                      </button>
+                    </div>
                   ) : (
                     renderFormattedContent(msg.content)
                   )}
 
-                  {/* Suggested Follow-Ups */}
-                  {!isUser && msg.suggestedFollowUps && msg.suggestedFollowUps.length > 0 && (
+                  {/* Suggested Follow-Ups (only rendered if explicitly returned and not error) */}
+                  {!isUser && !msg.isError && msg.suggestedFollowUps && msg.suggestedFollowUps.length > 0 && (
                     <div className="mt-4 pt-3 border-t border-white/[0.06] space-y-2">
                       <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-wider block">
                         Suggested Follow-ups
@@ -292,12 +412,12 @@ export const MentorPage: React.FC = () => {
           {/* Loading Bubble */}
           {isLoading && (
             <div className="flex gap-3 max-w-2xl mr-auto animate-in fade-in duration-200">
-              <div className="w-8 h-8 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-cyan-400 shrink-0">
+              <div className="w-8 h-8 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-cyan-400 shrink-0 shadow-[0_0_12px_rgba(37,99,235,0.3)]">
                 <Bot className="w-4 h-4 animate-spin" />
               </div>
-              <div className="p-4 rounded-2xl bg-slate-900/80 border border-white/[0.08] text-xs text-slate-400 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-                <span>Mentor is synthesizing project guidance...</span>
+              <div className="p-4 rounded-2xl bg-slate-900/80 border border-white/[0.08] text-xs text-slate-300 flex items-center gap-2.5">
+                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping shrink-0" />
+                <span className="font-medium">AI Mentor is thinking...</span>
               </div>
             </div>
           )}

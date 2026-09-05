@@ -9,6 +9,7 @@ interface MentorState {
   error: string | null;
 
   sendMessage: (content: string, context?: MentorContext) => Promise<void>;
+  retryLastMessage: (context?: MentorContext) => Promise<void>;
   clearChat: () => void;
   initializeDefaultGreeting: (projectTitle?: string) => void;
 }
@@ -28,18 +29,10 @@ export const useMentorStore = create<MentorState>()(
               {
                 id: 'welcome-msg',
                 role: 'assistant',
-                content: `👋 Welcome to your AI Project Mentor workspace!\n\nI am your dedicated engineering advisor for ${
+                content: `👋 Welcome to your AI Project Mentor workspace!\n\nI am your senior engineering mentor for ${
                   projectTitle ? `**${projectTitle}**` : 'your final-year project'
-                }. I can help you select your tech stack, review your architecture, break down complex milestones, fix blockers, and prepare for your university viva defense.\n\nWhat would you like to focus on right now?`,
+                }. I can help you validate architectural decisions, unblock technical issues, choose suitable databases, and guide your MVP development.\n\nWhat would you like to build or solve first?`,
                 timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                suggestedFollowUps: [
-                  'What should I build first?',
-                  'Which database should I use?',
-                  'How do I implement this feature?',
-                  "I'm stuck.",
-                  'How can I improve this project?',
-                  'How should I deploy it?',
-                ],
               },
             ],
           });
@@ -94,17 +87,42 @@ export const useMentorStore = create<MentorState>()(
             messages: [...get().messages, assistantMsg],
             isLoading: false,
           });
-        } catch (err: unknown) {
-          const errMsg = err instanceof Error ? err.message : 'Unable to fetch response from mentor. Please try again.';
+        } catch {
+          // Rule: If Gemini fails, show one clean user-friendly message with retry capability. Never expose raw API errors.
+          const errorMsg: MentorMessage = {
+            id: `msg-${Date.now()}-error`,
+            role: 'assistant',
+            content: "Sorry, I couldn't generate a response right now. Please try again.",
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            isError: true,
+            lastFailedUserMessage: content.trim(),
+          };
+
           set({
+            messages: [...get().messages, errorMsg],
             isLoading: false,
-            error: errMsg,
+            error: "Sorry, I couldn't generate a response right now. Please try again.",
           });
         }
       },
 
+      retryLastMessage: async (context?: MentorContext) => {
+        const { messages, isLoading, sendMessage } = get();
+        if (isLoading) return;
+
+        // Find last user query to retry
+        const lastUserMsg = [...messages].reverse().find((m) => m.role === 'user');
+        if (!lastUserMsg) return;
+
+        // Remove trailing error card before retrying
+        const filtered = messages.filter((m) => !m.isError);
+        set({ messages: filtered });
+
+        await sendMessage(lastUserMsg.content, context);
+      },
+
       clearChat: () => {
-        set({ messages: [] });
+        set({ messages: [], error: null });
       },
     }),
     {

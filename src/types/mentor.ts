@@ -4,6 +4,8 @@ export interface MentorMessage {
   content: string;
   timestamp: string;
   suggestedFollowUps?: string[];
+  isError?: boolean;
+  lastFailedUserMessage?: string;
 }
 
 export interface MentorContext {
@@ -14,6 +16,11 @@ export interface MentorContext {
   technologies: string[];
   currentMilestone?: string;
   problemStatement?: string;
+  features?: string[];
+  architecture?: string;
+  roadmapSummary?: string;
+  studentSkills?: string[];
+  constraints?: string;
 }
 
 export interface MentorChatRequest {

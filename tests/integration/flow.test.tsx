@@ -68,6 +68,6 @@ describe('End-to-End Primary Application Flow', () => {
     expect(messages.length).toBeGreaterThanOrEqual(2);
     const assistantReply = messages[messages.length - 1];
     expect(assistantReply.role).toBe('assistant');
-    expect(assistantReply.content).toContain('Walking Skeleton');
+    expect(assistantReply.content.toLowerCase()).toContain('walking skeleton');
   });
 });
