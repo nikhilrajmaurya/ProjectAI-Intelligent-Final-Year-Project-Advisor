@@ -29,8 +29,8 @@ export const Navbar: React.FC = () => {
               <Sparkles className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform" />
             </div>
           </div>
-          <span className="text-sm font-semibold tracking-tight text-white group-hover:text-cyan-200 transition-colors">
-            ProjectMentor<span className="text-cyan-400 font-light">.ai</span>
+          <span className="text-base font-bold tracking-tight text-white group-hover:text-cyan-200 transition-colors">
+            MentorAI
           </span>
         </Link>
 

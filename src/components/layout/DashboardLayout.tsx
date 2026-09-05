@@ -67,7 +67,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
           <div className="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/40 flex items-center justify-center">
             <Sparkles className="w-4 h-4 text-cyan-400" />
           </div>
-          <span className="font-bold text-sm text-white">ProjectMentor.ai</span>
+          <span className="font-bold text-sm text-white">MentorAI</span>
         </Link>
         <div className="flex items-center gap-2">
           <button
@@ -117,7 +117,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
                 </div>
               </div>
               <div className="flex flex-col">
-                <span className="font-bold text-sm tracking-tight text-white">ProjectMentor</span>
+                <span className="font-bold text-sm tracking-tight text-white">MentorAI</span>
                 <span className="text-[10px] text-cyan-400 font-mono">WORKSPACE</span>
               </div>
             </Link>

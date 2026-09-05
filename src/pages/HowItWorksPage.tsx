@@ -97,7 +97,7 @@ export const HowItWorksPage: React.FC = () => {
               Step-by-Step Student Journey
             </span>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
-              How ProjectMentor Works
+              How MentorAI Works
             </h1>
             <p className="mt-4 text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">
               From an initial vague idea to a fully defended, high-scoring capstone project. Follow the 8-stage methodology designed specifically for final-year engineering evaluations.
