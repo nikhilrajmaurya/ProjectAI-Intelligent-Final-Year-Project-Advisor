@@ -83,11 +83,17 @@ export const Navbar: React.FC = () => {
         <div className="hidden md:flex items-center gap-3">
           {/* Theme Toggle */}
           <button
+            type="button"
             onClick={toggleTheme}
             className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors border border-transparent hover:border-white/[0.08] cursor-pointer"
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           >
-            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            {theme === 'dark' ? (
+              <Sun className="w-4 h-4 text-amber-400" />
+            ) : (
+              <Moon className="w-4 h-4 text-blue-600" />
+            )}
           </button>
 
           {isAuthenticated ? (
@@ -120,11 +126,16 @@ export const Navbar: React.FC = () => {
         {/* Mobile Hamburger */}
         <div className="flex items-center gap-2 md:hidden">
           <button
+            type="button"
             onClick={toggleTheme}
-            className="p-2 rounded-lg text-slate-400 hover:text-white"
-            aria-label="Toggle theme"
+            className="p-2 rounded-lg text-slate-400 hover:text-white cursor-pointer"
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           >
-            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            {theme === 'dark' ? (
+              <Sun className="w-4 h-4 text-amber-400" />
+            ) : (
+              <Moon className="w-4 h-4 text-blue-600" />
+            )}
           </button>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

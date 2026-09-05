@@ -71,11 +71,17 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
         </Link>
         <div className="flex items-center gap-2">
           <button
+            type="button"
             onClick={toggleTheme}
-            className="p-2 text-slate-400 hover:text-white"
-            aria-label="Toggle theme"
+            className="p-2 text-slate-400 hover:text-white cursor-pointer rounded-lg"
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           >
-            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            {theme === 'dark' ? (
+              <Sun className="w-4 h-4 text-amber-400" />
+            ) : (
+              <Moon className="w-4 h-4 text-blue-600" />
+            )}
           </button>
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -202,11 +208,17 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
               </div>
 
               <button
+                type="button"
                 onClick={toggleTheme}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
                 aria-label="Toggle theme"
+                title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
               >
-                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                {theme === 'dark' ? (
+                  <Sun className="w-4 h-4 text-amber-400 hover:rotate-45 transition-transform" />
+                ) : (
+                  <Moon className="w-4 h-4 text-blue-600 hover:-rotate-12 transition-transform" />
+                )}
               </button>
             </div>
 

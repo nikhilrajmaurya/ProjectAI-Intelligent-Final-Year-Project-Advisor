@@ -1,100 +1,151 @@
 @import "tailwindcss";
 
+/* ==============================================================================
+   CENTRALIZED DESIGN TOKENS & CSS VARIABLES (THEME ENGINE)
+   ============================================================================== */
+
+:root,
+html.dark {
+  --bg-page: #06080d;
+  --bg-surface: #0c101a;
+  --bg-surface-elevated: #111726;
+  --bg-card: rgba(17, 23, 38, 0.75);
+  --bg-card-glass: rgba(12, 16, 26, 0.75);
+  --bg-input: #0a0d14;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-card: rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(56, 189, 248, 0.4);
+  --text-heading: #f8fafc;
+  --text-body: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-faint: #64748b;
+  --accent-blue: #2563eb;
+  --accent-cyan: #06b6d4;
+  --glow-hero: radial-gradient(circle 800px at 50% -10%, rgba(37, 99, 235, 0.28), rgba(6, 182, 212, 0.1) 45%, transparent 75%);
+  --glow-center: radial-gradient(circle 600px at 50% 50%, rgba(37, 99, 235, 0.16), transparent 70%);
+  --glow-subtle: radial-gradient(circle 400px at 50% 0%, rgba(56, 189, 248, 0.12), transparent 70%);
+  --modal-bg: rgba(12, 16, 26, 0.95);
+  --nav-bg: rgba(6, 8, 13, 0.8);
+  --code-bg: #030508;
+}
+
+html.light {
+  --bg-page: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #f1f5f9;
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --bg-card-glass: rgba(255, 255, 255, 0.9);
+  --bg-input: #ffffff;
+  --border-subtle: rgba(15, 23, 42, 0.12);
+  --border-card: rgba(15, 23, 42, 0.1);
+  --border-hover: rgba(37, 99, 235, 0.45);
+  --text-heading: #0f172a;
+  --text-body: #334155;
+  --text-muted: #475569;
+  --text-faint: #64748b;
+  --accent-blue: #2563eb;
+  --accent-cyan: #0284c7;
+  --glow-hero: radial-gradient(circle 800px at 50% -10%, rgba(37, 99, 235, 0.12), rgba(6, 182, 212, 0.05) 45%, transparent 75%);
+  --glow-center: radial-gradient(circle 600px at 50% 50%, rgba(37, 99, 235, 0.07), transparent 70%);
+  --glow-subtle: radial-gradient(circle 400px at 50% 0%, rgba(56, 189, 248, 0.06), transparent 70%);
+  --modal-bg: #ffffff;
+  --nav-bg: rgba(255, 255, 255, 0.88);
+  --code-bg: #f1f5f9;
+}
+
+/* ==============================================================================
+   BASE & SMOOTH COLOR TRANSITIONS (NO LAYOUT SHIFT)
+   ============================================================================== */
+
 @layer base {
-  :root {
-    --bg-primary: #06080d;
-    --bg-surface: #0c101a;
-    --bg-surface-elevated: #111726;
-    --border-glass: rgba(255, 255, 255, 0.08);
-    --border-glass-hover: rgba(56, 189, 248, 0.3);
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --accent-blue: #2563eb;
-    --accent-cyan: #06b6d4;
-  }
-
-  html.light {
-    --bg-primary: #f8fafc;
-    --bg-surface: #ffffff;
-    --bg-surface-elevated: #f1f5f9;
-    --border-glass: rgba(15, 23, 42, 0.08);
-    --border-glass-hover: rgba(37, 99, 235, 0.3);
-    --text-main: #0f172a;
-    --text-muted: #64748b;
-    --accent-blue: #2563eb;
-    --accent-cyan: #0284c7;
-  }
-
   body {
-    background-color: var(--bg-primary);
-    color: var(--text-main);
+    background-color: var(--bg-page);
+    color: var(--text-body);
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     overflow-x: hidden;
     min-height: 100vh;
-    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  /* Smooth color/background transitions exclusively - zero layout jumping */
+  body,
+  .glass-panel,
+  .glass-card,
+  header,
+  aside,
+  footer,
+  input,
+  textarea,
+  select,
+  nav,
+  main,
+  button:not(.btn-primary) {
+    transition: background-color 0.18s ease,
+                color 0.18s ease,
+                border-color 0.18s ease,
+                box-shadow 0.18s ease;
   }
 }
 
-/* Radiant Ambient Glows */
+/* ==============================================================================
+   RADIAL AMBIENT GLOWS
+   ============================================================================== */
+
 .radial-glow-hero {
-  background: radial-gradient(circle 800px at 50% -10%, rgba(37, 99, 235, 0.28), rgba(6, 182, 212, 0.1) 45%, transparent 75%);
+  background: var(--glow-hero);
 }
 
 .radial-glow-center {
-  background: radial-gradient(circle 600px at 50% 50%, rgba(37, 99, 235, 0.16), transparent 70%);
+  background: var(--glow-center);
 }
 
 .radial-glow-subtle {
-  background: radial-gradient(circle 400px at 50% 0%, rgba(56, 189, 248, 0.12), transparent 70%);
+  background: var(--glow-subtle);
 }
 
-/* Glass Panels */
+/* ==============================================================================
+   GLASSMORPHISM PANELS & CARDS
+   ============================================================================== */
+
 .glass-panel {
-  background: rgba(12, 16, 26, 0.7);
+  background: var(--bg-card-glass);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-html.light .glass-panel {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--border-subtle);
 }
 
 .glass-card {
-  background: rgba(17, 23, 38, 0.6);
+  background: var(--bg-card);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid var(--border-card);
 }
 
 .glass-card:hover {
-  border-color: rgba(56, 189, 248, 0.3);
+  border-color: var(--border-hover);
   box-shadow: 0 8px 30px rgba(37, 99, 235, 0.12);
-  transform: translateY(-2px);
+}
+
+html.light .glass-panel {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
 html.light .glass-card {
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
 }
 
 html.light .glass-card:hover {
-  border-color: rgba(37, 99, 235, 0.3);
   box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08);
 }
 
-/* Premium Buttons */
+/* ==============================================================================
+   BUTTONS
+   ============================================================================== */
+
 .btn-primary {
   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-  color: #ffffff;
+  color: #ffffff !important;
   box-shadow: 0 2px 14px rgba(37, 99, 235, 0.35);
-  transition: all 0.2s ease;
+  transition: all 0.18s ease;
 }
 
 .btn-primary:hover:not(:disabled) {
@@ -104,15 +155,14 @@ html.light .glass-card:hover {
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--text-main);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.2s ease;
+  background: var(--border-subtle);
+  color: var(--text-heading) !important;
+  border: 1px solid var(--border-subtle);
+  transition: all 0.18s ease;
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(56, 189, 248, 0.4);
+  border-color: var(--border-hover);
 }
 
 html.light .btn-secondary {
@@ -122,10 +172,108 @@ html.light .btn-secondary {
 
 html.light .btn-secondary:hover:not(:disabled) {
   background: rgba(15, 23, 42, 0.08);
-  border-color: rgba(37, 99, 235, 0.4);
 }
 
-/* Scrollbar Customization */
+/* ==============================================================================
+   LIGHT MODE SURFACE & TEXT OVERRIDES (FULL CONTRAST & ACCESSIBILITY)
+   ============================================================================== */
+
+html.light .bg-slate-950,
+html.light .bg-slate-950\/90,
+html.light .bg-slate-950\/95,
+html.light .bg-slate-950\/80,
+html.light .bg-slate-950\/70,
+html.light .bg-slate-950\/60,
+html.light .bg-slate-950\/40 {
+  background-color: var(--bg-surface) !important;
+}
+
+html.light main.bg-slate-950\/60,
+html.light div.min-h-screen.bg-slate-950 {
+  background-color: var(--bg-page) !important;
+}
+
+html.light .bg-slate-900,
+html.light .bg-slate-900\/80,
+html.light .bg-slate-900\/60,
+html.light .bg-slate-900\/50,
+html.light .bg-slate-900\/40,
+html.light .bg-slate-900\/30 {
+  background-color: var(--bg-surface-elevated) !important;
+}
+
+html.light .bg-blue-950\/40,
+html.light .bg-blue-950\/30,
+html.light .bg-blue-950\/20,
+html.light .bg-blue-950\/50 {
+  background-color: rgba(239, 246, 255, 0.85) !important;
+  border-color: rgba(191, 219, 254, 0.8) !important;
+}
+
+html.light .text-white {
+  color: var(--text-heading) !important;
+}
+
+html.light .text-slate-100 {
+  color: var(--text-heading) !important;
+}
+
+html.light .text-slate-200 {
+  color: #1e293b !important;
+}
+
+html.light .text-slate-300 {
+  color: var(--text-body) !important;
+}
+
+html.light .text-slate-400 {
+  color: var(--text-muted) !important;
+}
+
+html.light .text-slate-500 {
+  color: var(--text-faint) !important;
+}
+
+html.light [class*="border-white/"] {
+  border-color: var(--border-subtle) !important;
+}
+
+html.light [class*="bg-white/\[0.0"] {
+  background-color: rgba(15, 23, 42, 0.04) !important;
+}
+
+html.light input,
+html.light textarea,
+html.light select {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: rgba(15, 23, 42, 0.15) !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+html.light header {
+  background-color: var(--nav-bg) !important;
+  border-color: var(--border-subtle) !important;
+}
+
+html.light aside {
+  background-color: var(--bg-surface) !important;
+  border-color: var(--border-subtle) !important;
+}
+
+html.light footer {
+  background-color: var(--bg-surface) !important;
+  border-color: var(--border-subtle) !important;
+}
+
+/* ==============================================================================
+   SCROLLBAR & ACCESSIBILITY
+   ============================================================================== */
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -136,22 +284,21 @@ html.light .btn-secondary:hover:not(:disabled) {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.2);
+  background: rgba(148, 163, 184, 0.25);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.4);
+  background: rgba(148, 163, 184, 0.45);
 }
 
-/* Reduced Motion Override */
 @media (prefers-reduced-motion: reduce) {
   *,
   ::before,
   ::after {
-    animation-duration: 0.01ms !important;
+    animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
 }
