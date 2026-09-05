@@ -94,58 +94,84 @@ export const LandingPage: React.FC = () => {
       <main id="main-content" className="flex-1">
         {/* Hero Section */}
         <section className="relative pt-20 pb-28 md:pt-32 md:pb-44 overflow-hidden" aria-label="Introduction">
-          {/* Deep Black Cinematic Background & Flowing 3D Ribbon / Wave Arcs */}
-          <div className="absolute inset-0 bg-[#010204] -z-20 pointer-events-none" />
+          {/* ==============================================================================
+              MULTI-LAYER DEFOCUSED CINEMATIC BACKGROUND (Atmospheric Depth & Soft Bloom)
+              ============================================================================== */}
+          {/* Layer 1: Deep Black / Navy Base (#010307) */}
+          <div className="absolute inset-0 bg-[#010307] -z-20 pointer-events-none" />
 
-          {/* Cinematic Floating 3D Curved Light Ribbon 1 (Top Left to Center) */}
+          {/* Layer 2: Wide Diffused Radial Blue Glow (Deep Ambient Light) */}
           <div
-            className="cinematic-ribbon-1 absolute -top-40 -left-48 w-[720px] h-[580px] rounded-[100%] pointer-events-none -z-10 opacity-70 filter blur-[48px]"
+            className="absolute -top-32 left-1/2 -translate-x-1/2 w-[1100px] h-[700px] pointer-events-none -z-10 opacity-70 filter blur-[90px]"
             style={{
-              background: 'radial-gradient(ellipse at 40% 50%, rgba(37, 99, 235, 0.45), rgba(99, 102, 241, 0.25) 45%, rgba(6, 182, 212, 0.1) 65%, transparent 80%)',
+              background: 'radial-gradient(ellipse 65% 50% at 50% 35%, rgba(29, 78, 216, 0.38), rgba(30, 58, 138, 0.18) 50%, rgba(2, 6, 23, 0) 80%)',
             }}
           />
 
-          {/* Cinematic Floating 3D Curved Light Ribbon 2 (Top Right Deep Indigo-Blue Arc) */}
+          {/* Layer 3: Soft Indigo / Violet Secondary Atmosphere Glow */}
           <div
-            className="cinematic-ribbon-2 absolute -top-24 -right-40 w-[850px] h-[640px] rounded-[100%] pointer-events-none -z-10 opacity-65 filter blur-[52px]"
+            className="absolute top-10 -right-24 w-[750px] h-[550px] pointer-events-none -z-10 opacity-55 filter blur-[100px]"
             style={{
-              background: 'radial-gradient(ellipse at 60% 40%, rgba(59, 130, 246, 0.4), rgba(79, 70, 229, 0.25) 50%, rgba(14, 165, 233, 0.08) 70%, transparent 85%)',
+              background: 'radial-gradient(ellipse at 50% 50%, rgba(99, 102, 241, 0.28), rgba(79, 70, 229, 0.12) 45%, transparent 75%)',
             }}
           />
 
-          {/* Center Subtle Blue Ambient Flare */}
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[900px] h-[480px] radial-glow-hero pointer-events-none -z-10 opacity-80" />
-
-          {/* Glossy Abstract Ribbon Line Arc */}
+          {/* Layer 4A: Abstract Flowing 3D Ribbon Light Form 1 (Left to Center Arc - Soft Defocused) */}
           <div
-            className="hidden md:block absolute top-12 left-1/2 -translate-x-1/2 w-[1100px] h-[340px] rounded-[50%] pointer-events-none -z-10 border-t border-cyan-400/20 opacity-40 shadow-[0_-8px_40px_rgba(59,130,246,0.3)]"
+            className="cinematic-ribbon-1 absolute -top-48 -left-36 w-[860px] h-[680px] rounded-[100%] pointer-events-none -z-10 opacity-60 filter blur-[75px]"
+            style={{
+              background: 'radial-gradient(ellipse at 42% 48%, rgba(37, 99, 235, 0.45), rgba(79, 70, 229, 0.22) 42%, rgba(6, 182, 212, 0.08) 65%, transparent 80%)',
+            }}
           />
 
+          {/* Layer 4B: Abstract Flowing 3D Ribbon Light Form 2 (Right to Center Arc - Deep Indigo Blur) */}
+          <div
+            className="cinematic-ribbon-2 absolute -top-32 -right-36 w-[920px] h-[720px] rounded-[100%] pointer-events-none -z-10 opacity-55 filter blur-[80px]"
+            style={{
+              background: 'radial-gradient(ellipse at 58% 42%, rgba(59, 130, 246, 0.38), rgba(67, 56, 202, 0.24) 48%, rgba(14, 165, 233, 0.06) 68%, transparent 82%)',
+            }}
+          />
+
+          {/* Layer 5: Very Subtle Bloom / Ambient Specular Sheen Arc */}
+          <div
+            className="cinematic-ribbon-sheen hidden md:block absolute top-14 left-1/2 -translate-x-1/2 w-[1150px] h-[360px] rounded-[50%] pointer-events-none -z-10 border-t border-cyan-400/15 opacity-30 shadow-[0_-12px_50px_rgba(59,130,246,0.2)] filter blur-[1px]"
+          />
+
+          {/* Foreground Container (Completely Crisp & High Contrast) */}
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            {/* Small Eyebrow Label */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.1] text-cyan-300 text-[11px] font-mono tracking-widest uppercase mb-8 backdrop-blur-xl shadow-[0_0_20px_rgba(59,130,246,0.15)] animate-float-subtle">
+            {/* Small Eyebrow Label with Refined Frosted Glass */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.1] text-cyan-300 text-[11px] font-mono tracking-widest uppercase mb-8 backdrop-blur-md shadow-[0_0_15px_rgba(59,130,246,0.1)] animate-float-subtle">
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
               <span>AI-POWERED PROJECT MENTOR</span>
             </div>
 
-            {/* Main Headline */}
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-white max-w-4xl mx-auto leading-[1.05] sm:leading-[1.08]">
-              Build Smarter.<br />
-              <span className="shimmer-text">
-                Build With AI.
-              </span>
-            </h1>
+            {/* Main Headline with Subtle Radial Glow Behind for Visual Pop and Separation */}
+            <div className="relative">
+              {/* Soft localized backdrop aura directly behind headline */}
+              <div
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[220px] pointer-events-none -z-10 opacity-40 filter blur-[45px]"
+                style={{
+                  background: 'radial-gradient(ellipse at center, rgba(56, 189, 248, 0.18), rgba(59, 130, 246, 0.08) 50%, transparent 80%)',
+                }}
+              />
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-white max-w-4xl mx-auto leading-[1.05] sm:leading-[1.08] drop-shadow-sm">
+                Build Smarter.<br />
+                <span className="shimmer-text">
+                  Build With AI.
+                </span>
+              </h1>
+            </div>
 
             {/* Supporting Text */}
             <p className="mt-8 text-base sm:text-lg md:text-xl text-slate-300/90 max-w-2xl mx-auto leading-relaxed font-normal">
               Turn your skills and interests into a practical, development-ready final year project.
             </p>
 
-            {/* Call to Actions with Cinematic Glow & Pill Geometry */}
+            {/* Call to Actions with Pill Geometry */}
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 to="/create-project"
-                className="btn-primary text-sm sm:text-base px-8 py-3.5 rounded-full flex items-center gap-2 font-medium tracking-wide shadow-lg group focus-visible:outline-2 focus-visible:outline-cyan-400"
+                className="btn-primary text-sm sm:text-base px-8 py-3.5 rounded-full flex items-center gap-2 font-medium tracking-wide shadow-md group focus-visible:outline-2 focus-visible:outline-cyan-400"
               >
                 <span>Generate My Project</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

@@ -56,7 +56,7 @@ export const WorkflowVisual: React.FC = () => {
           const Icon = item.icon;
           return (
             <div key={item.step} className="relative group">
-              <div className="h-full p-4 rounded-2xl glass-card border border-white/[0.08] hover:border-blue-500/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between shadow-sm hover:shadow-[0_8px_25px_rgba(37,99,235,0.18)]">
+              <div className="h-full p-4 rounded-2xl glass-card border border-white/[0.08] hover:border-blue-500/30 hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between shadow-sm hover:shadow-[0_4px_20px_rgba(37,99,235,0.1)]">
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <div
