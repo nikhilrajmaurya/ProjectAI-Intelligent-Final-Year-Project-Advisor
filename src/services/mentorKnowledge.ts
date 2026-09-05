@@ -42,8 +42,11 @@ export function getLocalMentorResponse(message: string, context?: MentorContext)
   }
 
   if (query.includes('improve') || query.includes('make it better') || query.includes('innovate')) {
+    const featuresList = context?.features && context.features.length > 0 
+      ? `your core features (${context.features.slice(0, 2).join(', ')})`
+      : 'your core features';
     return {
-      reply: `Start by adding real-time project progress tracking, stronger testing, and a clear recommendation history. For **${projectTitle}**, I'd prioritize automated testing and project-progress analytics first because they directly improve reliability and usability.\n\nNext, ensure your application handles offline states or API timeouts gracefully with friendly fallback messages instead of empty screens.`,
+      reply: `To improve **${projectTitle}**, focus on hardening ${featuresList} with robust error handling and input validation first. Next, add automated integration tests for your primary ${techStack} data flows, and consider adding offline caching or optimistic UI updates so the interface stays snappy even on unstable student networks.`,
       suggestedFollowUps: []
     };
   }

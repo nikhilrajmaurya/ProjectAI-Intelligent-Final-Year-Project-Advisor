@@ -57,6 +57,7 @@ export const CreateProjectPage: React.FC = () => {
     mode: 'onChange',
   });
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const formValues = watch();
 
   const stepTitles = [
