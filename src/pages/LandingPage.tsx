@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
-  Sparkles,
   Lightbulb,
   Cpu,
   Layers,
@@ -94,60 +93,74 @@ export const LandingPage: React.FC = () => {
 
       <main id="main-content" className="flex-1">
         {/* Hero Section */}
-        <section className="relative pt-16 pb-24 md:pt-24 md:pb-32 overflow-hidden" aria-label="Introduction">
-          {/* Large Radiant Ambient Glow with smooth keyframe pulse */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[550px] radial-glow-hero pointer-events-none -z-10" />
+        <section className="relative pt-20 pb-28 md:pt-32 md:pb-44 overflow-hidden" aria-label="Introduction">
+          {/* Deep Black Cinematic Background & Flowing 3D Ribbon / Wave Arcs */}
+          <div className="absolute inset-0 bg-[#010204] -z-20 pointer-events-none" />
 
-          {/* Subtle grid pattern */}
+          {/* Cinematic Floating 3D Curved Light Ribbon 1 (Top Left to Center) */}
           <div
-            className="absolute inset-0 opacity-[0.03] pointer-events-none -z-10"
+            className="cinematic-ribbon-1 absolute -top-40 -left-48 w-[720px] h-[580px] rounded-[100%] pointer-events-none -z-10 opacity-70 filter blur-[48px]"
             style={{
-              backgroundImage:
-                'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
-              backgroundSize: '40px 40px',
+              background: 'radial-gradient(ellipse at 40% 50%, rgba(37, 99, 235, 0.45), rgba(99, 102, 241, 0.25) 45%, rgba(6, 182, 212, 0.1) 65%, transparent 80%)',
             }}
           />
 
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            {/* Animated Top Pill */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/25 text-cyan-300 text-xs font-medium mb-6 backdrop-blur-md shadow-[0_0_20px_rgba(56,189,248,0.2)] animate-float-subtle transition-transform">
-              <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-              <span>Built Specifically for Engineering Undergraduate Final Years</span>
+          {/* Cinematic Floating 3D Curved Light Ribbon 2 (Top Right Deep Indigo-Blue Arc) */}
+          <div
+            className="cinematic-ribbon-2 absolute -top-24 -right-40 w-[850px] h-[640px] rounded-[100%] pointer-events-none -z-10 opacity-65 filter blur-[52px]"
+            style={{
+              background: 'radial-gradient(ellipse at 60% 40%, rgba(59, 130, 246, 0.4), rgba(79, 70, 229, 0.25) 50%, rgba(14, 165, 233, 0.08) 70%, transparent 85%)',
+            }}
+          />
+
+          {/* Center Subtle Blue Ambient Flare */}
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[900px] h-[480px] radial-glow-hero pointer-events-none -z-10 opacity-80" />
+
+          {/* Glossy Abstract Ribbon Line Arc */}
+          <div
+            className="hidden md:block absolute top-12 left-1/2 -translate-x-1/2 w-[1100px] h-[340px] rounded-[50%] pointer-events-none -z-10 border-t border-cyan-400/20 opacity-40 shadow-[0_-8px_40px_rgba(59,130,246,0.3)]"
+          />
+
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            {/* Small Eyebrow Label */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.1] text-cyan-300 text-[11px] font-mono tracking-widest uppercase mb-8 backdrop-blur-xl shadow-[0_0_20px_rgba(59,130,246,0.15)] animate-float-subtle">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+              <span>AI-POWERED PROJECT MENTOR</span>
             </div>
 
-            {/* Main Headline with Smooth Shimmer Accent */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.1] sm:leading-[1.15]">
-              Turn Your Skills Into Your{' '}
+            {/* Main Headline */}
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-white max-w-4xl mx-auto leading-[1.05] sm:leading-[1.08]">
+              Build Smarter.<br />
               <span className="shimmer-text">
-                Final-Year Project.
+                Build With AI.
               </span>
             </h1>
 
             {/* Supporting Text */}
-            <p className="mt-6 text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-              Generate practical project ideas, discover the right technologies, build a development roadmap, and get AI mentorship from idea to implementation.
+            <p className="mt-8 text-base sm:text-lg md:text-xl text-slate-300/90 max-w-2xl mx-auto leading-relaxed font-normal">
+              Turn your skills and interests into a practical, development-ready final year project.
             </p>
 
-            {/* Call to Actions with Enhanced Focus & Hover Effects */}
-            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+            {/* Call to Actions with Cinematic Glow & Pill Geometry */}
+            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 to="/create-project"
-                className="btn-primary text-sm sm:text-base px-7 py-3.5 rounded-xl flex items-center gap-2 font-semibold shadow-lg shadow-blue-600/25 group focus-visible:outline-2 focus-visible:outline-cyan-400"
+                className="btn-primary text-sm sm:text-base px-8 py-3.5 rounded-full flex items-center gap-2 font-medium tracking-wide shadow-lg group focus-visible:outline-2 focus-visible:outline-cyan-400"
               >
-                <span>Start Building</span>
+                <span>Generate My Project</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
 
               <Link
-                to="/how-it-works"
-                className="btn-secondary text-sm sm:text-base px-6 py-3.5 rounded-xl font-medium focus-visible:outline-2 focus-visible:outline-blue-500"
+                to="/mentor"
+                className="btn-secondary text-sm sm:text-base px-8 py-3.5 rounded-full font-medium tracking-wide focus-visible:outline-2 focus-visible:outline-blue-500"
               >
-                See How It Works
+                Meet Your AI Mentor
               </Link>
             </div>
 
             {/* Interactive Hero Visual Pipeline */}
-            <div className="mt-14 sm:mt-16">
+            <div className="mt-20 sm:mt-24">
               <WorkflowVisual />
             </div>
           </div>

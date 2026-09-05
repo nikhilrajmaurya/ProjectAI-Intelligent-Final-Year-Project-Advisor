@@ -312,7 +312,7 @@ export const MentorPage: React.FC = () => {
         </div>
 
         {/* Chat Messages Transcript Area */}
-        <div className="flex-1 overflow-y-auto pr-2 space-y-4 rounded-2xl glass-panel p-4 sm:p-6 border-white/[0.08]">
+        <div className="flex-1 overflow-y-auto pr-2 space-y-4 rounded-3xl glass-panel p-4 sm:p-6 border-white/[0.08] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]">
           {messages.map((msg) => {
             const isUser = msg.role === 'user';
             const isCopied = copiedId === msg.id;
@@ -323,21 +323,23 @@ export const MentorPage: React.FC = () => {
                 className={`flex gap-3 max-w-3xl ${isUser ? 'ml-auto justify-end' : 'mr-auto'}`}
               >
                 {!isUser && (
-                  <div className="w-8 h-8 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-cyan-400 shrink-0 mt-1 shadow-[0_0_12px_rgba(37,99,235,0.3)]">
-                    <Bot className="w-4 h-4" />
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 p-[1px] shrink-0 mt-1 shadow-[0_0_15px_rgba(59,130,246,0.4)]">
+                    <div className="w-full h-full bg-[#040814] rounded-full flex items-center justify-center text-cyan-400">
+                      <Bot className="w-4 h-4" />
+                    </div>
                   </div>
                 )}
 
                 <div
-                  className={`relative p-4 rounded-2xl border transition-all ${
+                  className={`relative p-4 sm:p-5 rounded-3xl border transition-all ${
                     isUser
-                      ? 'bg-blue-600/25 border-blue-500/40 text-white rounded-tr-sm shadow-md'
-                      : 'bg-slate-900/80 border-white/[0.08] text-slate-200 rounded-tl-sm shadow-sm'
+                      ? 'bg-gradient-to-r from-blue-600/90 to-blue-700/90 border-blue-400/40 text-white rounded-tr-md shadow-[0_4px_20px_rgba(37,99,235,0.3)]'
+                      : 'bg-[#060a14]/90 border-white/[0.08] text-slate-200 rounded-tl-md shadow-[0_4px_25px_rgba(0,0,0,0.4)]'
                   }`}
                 >
                   {/* Message timestamp & copy */}
                   <div className="flex items-center justify-between gap-4 mb-2 text-[10px] text-slate-400 font-mono">
-                    <span>{isUser ? 'You' : 'AI Project Mentor'} &bull; {msg.timestamp}</span>
+                    <span className="font-semibold">{isUser ? 'You' : 'AI Project Mentor'} &bull; {msg.timestamp}</span>
                     {!isUser && (
                       <button
                         onClick={() => handleCopyMessage(msg.id, msg.content)}
@@ -401,8 +403,8 @@ export const MentorPage: React.FC = () => {
                 </div>
 
                 {isUser && (
-                  <div className="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 shrink-0 mt-1 font-bold text-xs">
-                    <User className="w-4 h-4 text-cyan-400" />
+                  <div className="w-8 h-8 rounded-full bg-blue-600/30 border border-blue-400/40 flex items-center justify-center text-cyan-300 shrink-0 mt-1 font-bold text-xs shadow-[0_0_12px_rgba(59,130,246,0.3)]">
+                    <User className="w-4 h-4 text-cyan-300" />
                   </div>
                 )}
               </div>
@@ -412,12 +414,14 @@ export const MentorPage: React.FC = () => {
           {/* Loading Bubble */}
           {isLoading && (
             <div className="flex gap-3 max-w-2xl mr-auto animate-in fade-in duration-200">
-              <div className="w-8 h-8 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-cyan-400 shrink-0 shadow-[0_0_12px_rgba(37,99,235,0.3)]">
-                <Bot className="w-4 h-4 animate-spin" />
+              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 p-[1px] shrink-0 mt-1 shadow-[0_0_15px_rgba(59,130,246,0.4)]">
+                <div className="w-full h-full bg-[#040814] rounded-full flex items-center justify-center text-cyan-400">
+                  <Bot className="w-4 h-4 animate-spin" />
+                </div>
               </div>
-              <div className="p-4 rounded-2xl bg-slate-900/80 border border-white/[0.08] text-xs text-slate-300 flex items-center gap-2.5">
+              <div className="px-4 py-3 rounded-full bg-[#060a14]/90 border border-blue-500/30 text-xs text-slate-300 flex items-center gap-2.5 shadow-[0_0_20px_rgba(59,130,246,0.15)]">
                 <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping shrink-0" />
-                <span className="font-medium">AI Mentor is thinking...</span>
+                <span className="font-medium text-cyan-200">AI Mentor is thinking...</span>
               </div>
             </div>
           )}
@@ -426,7 +430,7 @@ export const MentorPage: React.FC = () => {
         </div>
 
         {/* Input Area */}
-        <div className="glass-panel p-3 rounded-2xl border-white/[0.08] shrink-0">
+        <div className="glass-panel p-2.5 sm:p-3 rounded-3xl border border-white/[0.1] shrink-0 focus-within:border-blue-500/50 focus-within:shadow-[0_0_25px_rgba(59,130,246,0.2)] transition-all">
           <div className="flex items-end gap-2">
             <textarea
               value={inputMessage}
@@ -434,7 +438,7 @@ export const MentorPage: React.FC = () => {
               onKeyDown={handleKeyDown}
               placeholder="Ask about architecture, database choices, debugging, or viva defense questions... (Press Enter to send)"
               rows={2}
-              className="flex-1 bg-transparent text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none resize-none px-2 py-1"
+              className="flex-1 bg-transparent text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none resize-none px-3 py-1.5 leading-relaxed"
             />
 
             <Button
@@ -443,7 +447,7 @@ export const MentorPage: React.FC = () => {
               isLoading={isLoading}
               onClick={() => handleSend()}
               disabled={!inputMessage.trim()}
-              className="rounded-xl px-4 py-2.5 shrink-0"
+              className="rounded-full px-5 py-3 shrink-0 shadow-[0_0_15px_rgba(59,130,246,0.4)]"
               aria-label="Send message"
             >
               <Send className="w-4 h-4" />

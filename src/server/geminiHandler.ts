@@ -216,7 +216,7 @@ IMPORTANT RESPONSE RULES:
 
         const prompt = `Project Context:\n${contextInfo}\n\nStudent Question: ${req.message}`;
 
-        const response = await ai.models.generateContent({
+        const generatePromise = ai.models.generateContent({
           model: 'gemini-3.6-flash',
           contents: prompt,
           config: {
@@ -225,6 +225,13 @@ IMPORTANT RESPONSE RULES:
             maxOutputTokens: 650,
           },
         });
+
+        // 8-second timeout to ensure graceful degradation if Gemini spikes in demand or experiences network lag
+        const timeoutPromise = new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error('Gemini API timeout')), 8000)
+        );
+
+        const response = await Promise.race([generatePromise, timeoutPromise]);
 
         if (response.text) {
           // Normalize response: strip any accidental code fences wrapping the entire answer

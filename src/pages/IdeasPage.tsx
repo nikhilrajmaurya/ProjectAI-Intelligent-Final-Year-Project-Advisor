@@ -117,22 +117,24 @@ export const IdeasPage: React.FC = () => {
             return (
               <GlassCard
                 key={idea.id}
-                elevated
-                className={`p-6 sm:p-7 border-white/[0.08] bg-slate-900/50 flex flex-col justify-between relative overflow-hidden transition-all ${
-                  isCurrentActive ? 'ring-2 ring-blue-500 shadow-[0_0_30px_rgba(37,99,235,0.2)]' : ''
+                hoverEffect
+                className={`p-6 sm:p-7 rounded-3xl border flex flex-col justify-between relative overflow-hidden transition-all duration-300 ${
+                  isCurrentActive
+                    ? 'border-blue-500/60 bg-[#070b16]/90 shadow-[0_0_35px_rgba(59,130,246,0.25)] ring-1 ring-blue-400/40'
+                    : 'border-white/[0.08] bg-[#050812]/80 hover:border-blue-500/40 hover:shadow-[0_8px_30px_rgba(37,99,235,0.18)]'
                 }`}
               >
                 {/* Active Indicator Badge */}
                 {isCurrentActive && (
-                  <div className="absolute top-0 right-0 bg-blue-600 text-white font-mono text-[10px] px-3 py-0.5 rounded-bl-xl font-bold tracking-wider">
+                  <div className="absolute top-0 right-0 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-mono text-[10px] px-3.5 py-1 rounded-bl-2xl font-bold tracking-wider shadow-sm">
                     CURRENT SELECTION
                   </div>
                 )}
 
                 <div className="space-y-4">
-                  {/* Metadata Row */}
+                  {/* Card Top: Badges & Bookmark */}
                   <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-2 flex-wrap">
+                    <div className="flex flex-wrap items-center gap-2">
                       <Badge
                         variant={
                           idea.difficulty === 'Beginner-Friendly'
@@ -153,7 +155,7 @@ export const IdeasPage: React.FC = () => {
 
                     <button
                       onClick={() => (isBookmarked ? removeSavedIdea(idea.id) : saveIdea(idea))}
-                      className="p-1.5 rounded-lg text-slate-400 hover:text-amber-400 hover:bg-slate-800 transition-colors cursor-pointer"
+                      className="p-2 rounded-full text-slate-400 hover:text-amber-400 hover:bg-white/[0.06] transition-colors cursor-pointer"
                       aria-label={isBookmarked ? 'Remove bookmark' : 'Bookmark idea'}
                     >
                       {isBookmarked ? (
@@ -165,13 +167,13 @@ export const IdeasPage: React.FC = () => {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-xl font-bold text-white tracking-tight hover:text-blue-200 transition-colors">
+                  <h3 className="text-xl font-bold text-white tracking-tight hover:text-cyan-200 transition-colors">
                     {idea.title}
                   </h3>
 
                   {/* Problem Statement */}
                   <div>
-                    <span className="text-[11px] font-mono font-semibold text-red-400 uppercase tracking-wider block mb-1">
+                    <span className="text-[11px] font-mono font-semibold text-rose-400 uppercase tracking-wider block mb-1">
                       Problem Addressed
                     </span>
                     <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
@@ -180,7 +182,7 @@ export const IdeasPage: React.FC = () => {
                   </div>
 
                   {/* Why it matches student */}
-                  <div className="p-3.5 rounded-xl bg-blue-950/30 border border-blue-500/20 text-xs text-slate-300">
+                  <div className="p-3.5 rounded-2xl bg-blue-950/20 border border-blue-500/20 text-xs text-slate-300">
                     <span className="font-semibold text-cyan-300 block mb-0.5">
                       Why this fits your profile:
                     </span>
@@ -196,7 +198,7 @@ export const IdeasPage: React.FC = () => {
                       {idea.requiredTechnologies.map((tech) => (
                         <span
                           key={tech}
-                          className="px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-[11px] font-mono text-slate-300"
+                          className="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-[11px] font-mono text-slate-300"
                         >
                           {tech}
                         </span>
@@ -206,7 +208,7 @@ export const IdeasPage: React.FC = () => {
 
                   {/* Innovation & Risks */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1">
-                    <div className="p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+                    <div className="p-3 rounded-2xl bg-white/[0.02] border border-white/[0.05]">
                       <div className="flex items-center gap-1.5 text-amber-400 font-semibold mb-1">
                         <Zap className="w-3.5 h-3.5" />
                         <span>Innovation Potential</span>
@@ -216,7 +218,7 @@ export const IdeasPage: React.FC = () => {
                       </p>
                     </div>
 
-                    <div className="p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+                    <div className="p-3 rounded-2xl bg-white/[0.02] border border-white/[0.05]">
                       <div className="flex items-center gap-1.5 text-rose-400 font-semibold mb-1">
                         <AlertTriangle className="w-3.5 h-3.5" />
                         <span>Main Risk</span>
@@ -233,7 +235,7 @@ export const IdeasPage: React.FC = () => {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => setSelectedModalIdea(idea)}
-                      className="px-3 py-2 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-white/[0.06] border border-white/[0.08] flex items-center gap-1.5 transition-colors cursor-pointer"
+                      className="px-3.5 py-2 rounded-full text-xs font-medium text-slate-300 hover:text-white hover:bg-white/[0.06] border border-white/[0.08] flex items-center gap-1.5 transition-colors cursor-pointer"
                     >
                       <Info className="w-3.5 h-3.5 text-cyan-400" />
                       <span>View Details</span>
@@ -242,7 +244,7 @@ export const IdeasPage: React.FC = () => {
                     <button
                       onClick={() => handleRegenerateSingle(index)}
                       disabled={isRegenerating}
-                      className="px-3 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-white/[0.04] flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
+                      className="px-3.5 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-white/[0.04] flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
                       title="Replace only this idea with a new variation"
                     >
                       <RefreshCw
@@ -257,6 +259,7 @@ export const IdeasPage: React.FC = () => {
                     size="sm"
                     onClick={() => handleSelectProject(idea)}
                     rightIcon={<ArrowRight className="w-3.5 h-3.5" />}
+                    className="rounded-full px-4"
                   >
                     <span>{isCurrentActive ? 'Selected' : 'Select Project'}</span>
                   </Button>

@@ -6,27 +6,28 @@
 
 :root,
 html.dark {
-  --bg-page: #06080d;
-  --bg-surface: #0c101a;
-  --bg-surface-elevated: #111726;
-  --bg-card: rgba(17, 23, 38, 0.75);
-  --bg-card-glass: rgba(12, 16, 26, 0.75);
-  --bg-input: #0a0d14;
+  --bg-page: #020408;
+  --bg-surface: #060910;
+  --bg-surface-elevated: #0b101c;
+  --bg-card: rgba(8, 12, 22, 0.72);
+  --bg-card-glass: rgba(5, 8, 16, 0.82);
+  --bg-input: #04070e;
   --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-card: rgba(255, 255, 255, 0.06);
-  --border-hover: rgba(56, 189, 248, 0.4);
-  --text-heading: #f8fafc;
+  --border-card: rgba(255, 255, 255, 0.07);
+  --border-hover: rgba(59, 130, 246, 0.55);
+  --text-heading: #ffffff;
   --text-body: #cbd5e1;
   --text-muted: #94a3b8;
   --text-faint: #64748b;
-  --accent-blue: #2563eb;
-  --accent-cyan: #06b6d4;
-  --glow-hero: radial-gradient(circle 800px at 50% -10%, rgba(37, 99, 235, 0.28), rgba(6, 182, 212, 0.1) 45%, transparent 75%);
-  --glow-center: radial-gradient(circle 600px at 50% 50%, rgba(37, 99, 235, 0.16), transparent 70%);
-  --glow-subtle: radial-gradient(circle 400px at 50% 0%, rgba(56, 189, 248, 0.12), transparent 70%);
-  --modal-bg: rgba(12, 16, 26, 0.95);
-  --nav-bg: rgba(6, 8, 13, 0.8);
-  --code-bg: #030508;
+  --accent-blue: #3b82f6;
+  --accent-cyan: #38bdf8;
+  --accent-violet: #818cf8;
+  --glow-hero: radial-gradient(circle 900px at 50% -15%, rgba(59, 130, 246, 0.35), rgba(99, 102, 241, 0.18) 40%, rgba(6, 182, 212, 0.08) 60%, transparent 80%);
+  --glow-center: radial-gradient(circle 700px at 50% 50%, rgba(59, 130, 246, 0.2), rgba(129, 140, 248, 0.08) 45%, transparent 75%);
+  --glow-subtle: radial-gradient(circle 500px at 50% 0%, rgba(56, 189, 248, 0.15), transparent 70%);
+  --modal-bg: rgba(5, 8, 16, 0.96);
+  --nav-bg: rgba(2, 4, 8, 0.68);
+  --code-bg: #020306;
 }
 
 html.light {
@@ -38,15 +39,16 @@ html.light {
   --bg-input: #ffffff;
   --border-subtle: rgba(15, 23, 42, 0.12);
   --border-card: rgba(15, 23, 42, 0.1);
-  --border-hover: rgba(37, 99, 235, 0.45);
-  --text-heading: #0f172a;
+  --border-hover: rgba(37, 99, 235, 0.5);
+  --text-heading: #090d16;
   --text-body: #334155;
   --text-muted: #475569;
   --text-faint: #64748b;
   --accent-blue: #2563eb;
   --accent-cyan: #0284c7;
-  --glow-hero: radial-gradient(circle 800px at 50% -10%, rgba(37, 99, 235, 0.12), rgba(6, 182, 212, 0.05) 45%, transparent 75%);
-  --glow-center: radial-gradient(circle 600px at 50% 50%, rgba(37, 99, 235, 0.07), transparent 70%);
+  --accent-violet: #4f46e5;
+  --glow-hero: radial-gradient(circle 800px at 50% -10%, rgba(37, 99, 235, 0.14), rgba(99, 102, 241, 0.06) 45%, transparent 75%);
+  --glow-center: radial-gradient(circle 600px at 50% 50%, rgba(37, 99, 235, 0.08), transparent 70%);
   --glow-subtle: radial-gradient(circle 400px at 50% 0%, rgba(56, 189, 248, 0.06), transparent 70%);
   --modal-bg: #ffffff;
   --nav-bg: rgba(255, 255, 255, 0.88);
@@ -215,27 +217,34 @@ html.light .glass-card:hover {
    ============================================================================== */
 
 .btn-primary {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #3b82f6 100%);
   color: #ffffff !important;
-  box-shadow: 0 2px 14px rgba(37, 99, 235, 0.35);
-  transition: all 0.18s ease;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(147, 197, 253, 0.25);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.5);
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%);
+  box-shadow: 0 0 28px rgba(59, 130, 246, 0.65), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px) scale(1.01);
+  border-color: rgba(147, 197, 253, 0.5);
 }
 
 .btn-secondary {
-  background: var(--border-subtle);
+  background: rgba(255, 255, 255, 0.03);
   color: var(--text-heading) !important;
-  border: 1px solid var(--border-subtle);
-  transition: all 0.18s ease;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .btn-secondary:hover:not(:disabled) {
-  border-color: var(--border-hover);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(96, 165, 250, 0.4);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+  transform: translateY(-1px);
 }
 
 html.light .btn-secondary {
@@ -245,6 +254,66 @@ html.light .btn-secondary {
 
 html.light .btn-secondary:hover:not(:disabled) {
   background: rgba(15, 23, 42, 0.08);
+  border-color: rgba(37, 99, 235, 0.3);
+}
+
+/* ==============================================================================
+   CINEMATIC ABSTRACT 3D RIBBON & WAVE BACKGROUNDS
+   ============================================================================== */
+
+@keyframes wave-drift-1 {
+  0% {
+    transform: rotate(-12deg) translateY(0px) scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: rotate(-8deg) translateY(-20px) scale(1.05);
+    opacity: 0.95;
+  }
+  100% {
+    transform: rotate(-12deg) translateY(0px) scale(1);
+    opacity: 0.75;
+  }
+}
+
+@keyframes wave-drift-2 {
+  0% {
+    transform: rotate(15deg) translateY(0px) scale(1);
+    opacity: 0.65;
+  }
+  50% {
+    transform: rotate(19deg) translateY(18px) scale(1.04);
+    opacity: 0.85;
+  }
+  100% {
+    transform: rotate(15deg) translateY(0px) scale(1);
+    opacity: 0.65;
+  }
+}
+
+.cinematic-ribbon-1 {
+  animation: wave-drift-1 14s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.cinematic-ribbon-2 {
+  animation: wave-drift-2 18s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Glass Floating Navbar */
+.nav-floating {
+  background: rgba(2, 4, 8, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.06);
+}
+
+html.light .nav-floating {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 }
 
 /* ==============================================================================

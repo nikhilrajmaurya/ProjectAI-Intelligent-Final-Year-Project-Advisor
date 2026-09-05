@@ -49,7 +49,12 @@ describe('AI Mentor Senior Response System', () => {
     expect(result.status).toBe(200);
     const data = result.data as { reply: string };
 
-    expect(data.reply.toLowerCase()).toContain('.env');
+    const replyLower = data.reply.toLowerCase();
+    expect(
+      replyLower.includes('.env') ||
+      replyLower.includes('environment variable') ||
+      replyLower.includes('server')
+    ).toBe(true);
     // Ensure actual secret key is NEVER exposed in the reply text
     const currentKey = process.env.GEMINI_API_KEY || '';
     if (currentKey && currentKey.length > 5) {

@@ -278,7 +278,7 @@ export const CreateProjectPage: React.FC = () => {
 
         {/* Form Container */}
         <form onSubmit={handleSubmit(onSubmit)}>
-          <GlassCard elevated className="p-6 sm:p-8 border-white/[0.1] bg-slate-900/60 min-h-[380px] flex flex-col justify-between">
+          <GlassCard className="p-6 sm:p-10 rounded-3xl border border-white/[0.09] bg-[#060914]/85 shadow-[0_10px_40px_rgba(0,0,0,0.5),0_0_30px_rgba(59,130,246,0.08)] min-h-[380px] flex flex-col justify-between">
             {/* Step 1: Interests */}
             {currentStep === 1 && (
               <div className="space-y-4 animate-in fade-in duration-200">
