@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, GitFork, Shield, Heart } from 'lucide-react';
+import { GitFork, Shield, Heart } from 'lucide-react';
+import { LogoIcon } from '../common/LogoIcon';
 
 export const Footer: React.FC = () => {
   return (
@@ -13,13 +14,16 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-white/[0.06]">
           {/* Col 1: Product Branding */}
           <div className="md:col-span-2 space-y-3">
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center">
-                <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+            <div className="flex items-center gap-2.5">
+              <LogoIcon size={30} />
+              <div className="flex flex-col">
+                <span className="text-base font-extrabold text-white tracking-tight leading-tight">
+                  Mentor<span className="text-cyan-400">AI</span>
+                </span>
+                <span className="text-xs text-slate-400 font-medium">
+                  AI Project Idea Generator & Mentor
+                </span>
               </div>
-              <span className="text-base font-bold text-white tracking-tight">
-                AI Project Idea Generator & Mentor
-              </span>
             </div>
             <p className="text-xs text-slate-400 max-w-md leading-relaxed">
               Empowering final-year engineering students to discover personalized project ideas, architect blueprints, navigate milestone roadmaps, and receive contextual AI mentorship from formulation to viva defense.

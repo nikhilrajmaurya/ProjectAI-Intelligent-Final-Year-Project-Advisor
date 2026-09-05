@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Sparkles, Menu, X, Sun, Moon, ArrowRight, UserCheck } from 'lucide-react';
+import { Menu, X, Sun, Moon, ArrowRight, UserCheck } from 'lucide-react';
+import { LogoIcon } from '../common/LogoIcon';
 import { useTheme } from '../../hooks/useTheme';
 import { useAuthStore } from '../../store/authStore';
 
@@ -22,16 +23,14 @@ export const Navbar: React.FC = () => {
         <Link
           to="/"
           className="flex items-center gap-2.5 group focus-visible:outline-2 focus-visible:outline-blue-500 rounded-full p-1"
-          aria-label="AI Project Idea Generator & Mentor Home"
+          aria-label="MentorAI Home"
         >
-          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 via-indigo-500 to-cyan-400 p-[1px] shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-            <div className="w-full h-full bg-[#03060c] rounded-full flex items-center justify-center">
-              <Sparkles className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform" />
-            </div>
+          <LogoIcon size={34} className="group-hover:scale-105 transition-transform duration-300" />
+          <div className="flex items-baseline">
+            <span className="text-base font-extrabold tracking-tight text-white group-hover:text-cyan-100 transition-colors">
+              Mentor<span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-500">AI</span>
+            </span>
           </div>
-          <span className="text-base font-bold tracking-tight text-white group-hover:text-cyan-200 transition-colors">
-            MentorAI
-          </span>
         </Link>
 
         {/* Center: Nav links (Desktop) */}

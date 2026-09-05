@@ -10,13 +10,13 @@ import {
   Settings,
   Menu,
   X,
-  Sparkles,
   Sun,
   Moon,
   ChevronRight,
   LogOut,
   FolderKanban,
 } from 'lucide-react';
+import { LogoIcon } from '../common/LogoIcon';
 import { useTheme } from '../../hooks/useTheme';
 import { useAuthStore } from '../../store/authStore';
 import { useProjectStore } from '../../store/projectStore';
@@ -64,9 +64,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
       {/* Mobile Header */}
       <div className="md:hidden flex items-center justify-between px-4 py-3 border-b border-white/[0.08] bg-slate-950/90 backdrop-blur-md sticky top-0 z-30">
         <Link to="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/40 flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-cyan-400" />
-          </div>
+          <LogoIcon size={28} />
           <span className="font-bold text-sm text-white">MentorAI</span>
         </Link>
         <div className="flex items-center gap-2">
@@ -111,11 +109,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
           {/* Brand Header */}
           <div className="p-5 border-b border-white/[0.06] flex items-center justify-between">
             <Link to="/" className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 p-[1px] shadow-[0_0_12px_rgba(37,99,235,0.4)]">
-                <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                  <Sparkles className="w-4 h-4 text-cyan-400" />
-                </div>
-              </div>
+              <LogoIcon size={32} />
               <div className="flex flex-col">
                 <span className="font-bold text-sm tracking-tight text-white">MentorAI</span>
                 <span className="text-[10px] text-cyan-400 font-mono">WORKSPACE</span>
