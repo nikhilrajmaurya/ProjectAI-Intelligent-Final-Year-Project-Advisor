@@ -6,6 +6,7 @@ export interface MentorMessage {
   suggestedFollowUps?: string[];
   isError?: boolean;
   lastFailedUserMessage?: string;
+  source?: 'gemini-live' | 'local-engine';
 }
 
 export interface MentorContext {

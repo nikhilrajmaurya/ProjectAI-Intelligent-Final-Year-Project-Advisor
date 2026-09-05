@@ -92,9 +92,19 @@ export const IdeasPage: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2.5">
-            <span className="text-xs font-mono px-3 py-1 rounded-full bg-blue-500/10 text-cyan-300 border border-blue-500/20 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span>{ideasSource === 'gemini-live' ? 'Live Google Gemini Flash' : 'Engineered Intelligence'}</span>
+            <span
+              className={`text-xs font-mono px-3 py-1 rounded-full border flex items-center gap-1.5 ${
+                ideasSource === 'gemini-live'
+                  ? 'bg-blue-500/10 text-cyan-300 border-blue-500/20'
+                  : 'bg-amber-500/10 text-amber-300 border-amber-500/20'
+              }`}
+            >
+              <span
+                className={`w-2 h-2 rounded-full ${
+                  ideasSource === 'gemini-live' ? 'bg-cyan-400 animate-pulse' : 'bg-amber-400'
+                }`}
+              />
+              <span>{ideasSource === 'gemini-live' ? 'Live Gemini 2.5 Flash' : 'Demo / Curated Fallback Mode'}</span>
             </span>
 
             <Link

@@ -77,10 +77,23 @@ describe('AI Mentor Senior Response System', () => {
     expect(data.reply.toLowerCase()).not.toContain('grading scale');
   }, 30000);
 
-  it('answers "I am stuck." with actionable troubleshooting steps', async () => {
+  it('answers "Which database should I use?" with structured database recommendation', async () => {
     const req: MentorChatRequest = {
       ...sampleRequest,
-      message: "I'm stuck.",
+      message: 'Which database should I use?',
+    };
+
+    const result = await handleGeminiApiRequest('mentor-chat', req as unknown as Record<string, unknown>);
+    expect(result.status).toBe(200);
+    const data = result.data as { reply: string };
+
+    expect(data.reply.toLowerCase()).toContain('postgresql');
+  }, 30000);
+
+  it('answers "What features should I add?" with concrete viva-ready features', async () => {
+    const req: MentorChatRequest = {
+      ...sampleRequest,
+      message: 'What features should I add?',
     };
 
     const result = await handleGeminiApiRequest('mentor-chat', req as unknown as Record<string, unknown>);
@@ -88,5 +101,6 @@ describe('AI Mentor Senior Response System', () => {
     const data = result.data as { reply: string };
 
     expect(data.reply.length).toBeGreaterThan(20);
+    expect(data.reply).not.toContain('rubric');
   }, 30000);
 });

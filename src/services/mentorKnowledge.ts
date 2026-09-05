@@ -41,6 +41,16 @@ export function getLocalMentorResponse(message: string, context?: MentorContext)
     };
   }
 
+  if (query.includes('what features should i add') || query.includes('features to add') || query.includes('what feature')) {
+    const existingFeatures = context?.features && context.features.length > 0
+      ? `beyond your current core scope (${context.features.slice(0, 2).join(', ')})`
+      : 'to enhance your core project';
+    return {
+      reply: `For **${projectTitle}**, ${existingFeatures}, I recommend adding these high-value features for maximum viva points:\n\n1. **Automated Data Validation & Error Recovery:** Graceful handling of invalid inputs and network timeouts so your demo never crashes in front of evaluators.\n2. **Audit & Activity History:** A timestamped activity log table tracking user actions and status transitions.\n3. **Exportable PDF / IEEE Report Generator:** A client-side or server-side export allowing evaluators to download a clean project summary.\n\nStart with the audit log first, as it demonstrates relational modeling rigor.`,
+      suggestedFollowUps: []
+    };
+  }
+
   if (query.includes('improve') || query.includes('make it better') || query.includes('innovate')) {
     const featuresList = context?.features && context.features.length > 0 
       ? `your core features (${context.features.slice(0, 2).join(', ')})`

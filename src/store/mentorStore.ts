@@ -81,6 +81,7 @@ export const useMentorStore = create<MentorState>()(
             content: response.reply,
             timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             suggestedFollowUps: response.suggestedFollowUps,
+            source: response.source,
           };
 
           set({

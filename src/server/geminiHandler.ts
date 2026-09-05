@@ -12,10 +12,31 @@ try {
   // .env file not present or already loaded by environment
 }
 
+// In-memory sliding window rate limiter for security & denial-of-service protection
+const requestLogs: number[] = [];
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
+const MAX_REQUESTS_PER_WINDOW = 30; // 30 requests per minute per server instance
+
 export async function handleGeminiApiRequest(
   endpoint: string,
   body: Record<string, unknown>
 ): Promise<{ status: number; data: unknown }> {
+  // Rate limiting check
+  const now = Date.now();
+  while (requestLogs.length > 0 && requestLogs[0] < now - RATE_LIMIT_WINDOW_MS) {
+    requestLogs.shift();
+  }
+  if (requestLogs.length >= MAX_REQUESTS_PER_WINDOW) {
+    return {
+      status: 429,
+      data: {
+        error: 'Too many requests. Please wait a moment before trying again.',
+        code: 'RATE_LIMIT_EXCEEDED',
+      },
+    };
+  }
+  requestLogs.push(now);
+
   const apiKey = process.env.GEMINI_API_KEY;
 
   if (endpoint === 'status') {
@@ -23,7 +44,7 @@ export async function handleGeminiApiRequest(
       status: 200,
       data: {
         configured: Boolean(apiKey && apiKey.length > 5),
-        model: 'gemini-3.6-flash',
+        model: 'gemini-2.5-flash',
         timestamp: new Date().toISOString(),
       },
     };
@@ -74,7 +95,7 @@ Respond ONLY with a JSON object matching this exact TypeScript structure:
 }`;
 
         const response = await ai.models.generateContent({
-          model: 'gemini-3.6-flash',
+          model: 'gemini-2.5-flash',
           contents: prompt,
           config: {
             responseMimeType: 'application/json',
@@ -164,7 +185,7 @@ Respond ONLY with a JSON object with this exact structure:
 }`;
 
         const response = await ai.models.generateContent({
-          model: 'gemini-3.6-flash',
+          model: 'gemini-2.5-flash',
           contents: prompt,
           config: {
             responseMimeType: 'application/json',
@@ -217,7 +238,7 @@ IMPORTANT RESPONSE RULES:
         const prompt = `Project Context:\n${contextInfo}\n\nStudent Question: ${req.message}`;
 
         const generatePromise = ai.models.generateContent({
-          model: 'gemini-3.6-flash',
+          model: 'gemini-2.5-flash',
           contents: prompt,
           config: {
             systemInstruction,

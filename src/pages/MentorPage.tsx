@@ -39,10 +39,11 @@ export const MentorPage: React.FC = () => {
 
   const quickPrompts = [
     'What should I build first?',
-    'Which database should I use?',
-    'How do I implement this feature?',
-    "I'm stuck.",
     'How can I improve this project?',
+    'Which database should I use?',
+    "I'm stuck.",
+    'How do I secure my API?',
+    'What features should I add?',
     'How should I deploy it?',
   ];
 
@@ -312,7 +313,12 @@ export const MentorPage: React.FC = () => {
         </div>
 
         {/* Chat Messages Transcript Area */}
-        <div className="flex-1 overflow-y-auto pr-2 space-y-4 rounded-3xl glass-panel p-4 sm:p-6 border-white/[0.08] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]">
+        <div
+          role="log"
+          aria-live="polite"
+          aria-label="AI Mentor Conversation History"
+          className="flex-1 overflow-y-auto pr-2 space-y-4 rounded-3xl glass-panel p-4 sm:p-6 border-white/[0.08] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]"
+        >
           {messages.map((msg) => {
             const isUser = msg.role === 'user';
             const isCopied = copiedId === msg.id;
@@ -339,7 +345,20 @@ export const MentorPage: React.FC = () => {
                 >
                   {/* Message timestamp & copy */}
                   <div className="flex items-center justify-between gap-4 mb-2 text-[10px] text-slate-400 font-mono">
-                    <span className="font-semibold">{isUser ? 'You' : 'AI Project Mentor'} &bull; {msg.timestamp}</span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-semibold">{isUser ? 'You' : 'AI Project Mentor'} &bull; {msg.timestamp}</span>
+                      {!isUser && !msg.isError && (
+                        <span
+                          className={`text-[9px] px-1.5 py-0.2 rounded border ${
+                            msg.source === 'gemini-live'
+                              ? 'bg-blue-500/10 text-cyan-300 border-blue-500/20'
+                              : 'bg-slate-800 text-slate-400 border-white/[0.08]'
+                          }`}
+                        >
+                          {msg.source === 'gemini-live' ? 'Live Gemini' : 'Curated Fallback'}
+                        </span>
+                      )}
+                    </div>
                     {!isUser && (
                       <button
                         onClick={() => handleCopyMessage(msg.id, msg.content)}
@@ -433,6 +452,8 @@ export const MentorPage: React.FC = () => {
         <div className="glass-panel p-2.5 sm:p-3 rounded-3xl border border-white/[0.1] shrink-0 focus-within:border-blue-500/50 focus-within:shadow-[0_0_25px_rgba(59,130,246,0.2)] transition-all">
           <div className="flex items-end gap-2">
             <textarea
+              id="mentor-chat-input"
+              aria-label="Ask your AI Mentor a question"
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
               onKeyDown={handleKeyDown}

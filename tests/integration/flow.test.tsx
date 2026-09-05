@@ -70,4 +70,28 @@ describe('End-to-End Primary Application Flow', () => {
     expect(assistantReply.role).toBe('assistant');
     expect(assistantReply.content.toLowerCase()).toContain('walking skeleton');
   });
+
+  it('handles empty messages gracefully without polluting message history', async () => {
+    const mentorStore = useMentorStore.getState();
+    const initialCount = mentorStore.messages.length;
+
+    await mentorStore.sendMessage('   ');
+    expect(useMentorStore.getState().messages.length).toBe(initialCount);
+  });
+
+  it('supports retryLastMessage functionality when a response fails', async () => {
+    const mentorStore = useMentorStore.getState();
+    mentorStore.clearChat();
+
+    // Send a query
+    await mentorStore.sendMessage('What should I build first?');
+    const messages = useMentorStore.getState().messages;
+    expect(messages.length).toBeGreaterThanOrEqual(2);
+
+    // Call retry
+    await mentorStore.retryLastMessage();
+    const retriedMessages = useMentorStore.getState().messages;
+    expect(retriedMessages.length).toBeGreaterThanOrEqual(2);
+    expect(retriedMessages[retriedMessages.length - 1].role).toBe('assistant');
+  });
 });
