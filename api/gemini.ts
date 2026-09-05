@@ -18,7 +18,8 @@ export default async function handler(
 
   try {
     const url = new URL(req.url || '', `http://${req.headers.host || 'localhost'}`);
-    const action = url.searchParams.get('action') || url.pathname.replace('/api/gemini/', '');
+    const pathnameAction = url.pathname.replace(/^\/api\/gemini\/?/, '');
+    const action = url.searchParams.get('action') || pathnameAction || '';
 
     let body = req.body;
     if (!body && req.method === 'POST') {
