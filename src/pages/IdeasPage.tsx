@@ -94,7 +94,7 @@ export const IdeasPage: React.FC = () => {
           <div className="flex items-center gap-2.5">
             <span className="text-xs font-mono px-3 py-1 rounded-full bg-blue-500/10 text-cyan-300 border border-blue-500/20 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span>{ideasSource === 'gemini-live' ? 'Live Google Gemini 2.5' : 'Engineered Intelligence'}</span>
+              <span>{ideasSource === 'gemini-live' ? 'Live Google Gemini Flash' : 'Engineered Intelligence'}</span>
             </span>
 
             <Link

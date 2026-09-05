@@ -56,11 +56,11 @@ export const WorkflowVisual: React.FC = () => {
           const Icon = item.icon;
           return (
             <div key={item.step} className="relative group">
-              <div className="h-full p-4 rounded-2xl glass-card border border-white/[0.08] hover:border-blue-500/40 transition-all duration-300 flex flex-col justify-between">
+              <div className="h-full p-4 rounded-2xl glass-card border border-white/[0.08] hover:border-blue-500/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between shadow-sm hover:shadow-[0_8px_25px_rgba(37,99,235,0.18)]">
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <div
-                      className={`w-9 h-9 rounded-xl bg-gradient-to-br ${item.glow} border border-white/[0.08] flex items-center justify-center`}
+                      className={`w-9 h-9 rounded-xl bg-gradient-to-br ${item.glow} border border-white/[0.08] flex items-center justify-center transition-transform group-hover:scale-110 duration-200`}
                     >
                       <Icon className={`w-4 h-4 ${item.iconColor}`} />
                     </div>
@@ -82,10 +82,10 @@ export const WorkflowVisual: React.FC = () => {
                 </div>
               </div>
 
-              {/* Glowing connection line on desktop */}
+              {/* Glowing animated connection line on desktop */}
               {idx < steps.length - 1 && (
                 <div
-                  className="hidden lg:block absolute top-1/2 -right-2 w-4 h-[2px] bg-gradient-to-r from-cyan-500/60 to-blue-500/60 -translate-y-1/2 z-10"
+                  className="hidden lg:block absolute top-1/2 -right-2 w-4 h-[2px] bg-gradient-to-r from-cyan-400 to-blue-500 -translate-y-1/2 z-10 animate-pulse-flow shadow-[0_0_8px_rgba(56,189,248,0.6)]"
                   aria-hidden="true"
                 />
               )}

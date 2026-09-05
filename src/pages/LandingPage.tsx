@@ -92,65 +92,66 @@ export const LandingPage: React.FC = () => {
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-blue-600 selection:text-white">
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="relative pt-16 pb-24 md:pt-24 md:pb-32 overflow-hidden">
-        {/* Large Radiant Ambient Glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[550px] radial-glow-hero pointer-events-none -z-10" />
+      <main id="main-content" className="flex-1">
+        {/* Hero Section */}
+        <section className="relative pt-16 pb-24 md:pt-24 md:pb-32 overflow-hidden" aria-label="Introduction">
+          {/* Large Radiant Ambient Glow with smooth keyframe pulse */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[550px] radial-glow-hero pointer-events-none -z-10" />
 
-        {/* Subtle grid pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.03] pointer-events-none -z-10"
-          style={{
-            backgroundImage:
-              'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
-            backgroundSize: '40px 40px',
-          }}
-        />
+          {/* Subtle grid pattern */}
+          <div
+            className="absolute inset-0 opacity-[0.03] pointer-events-none -z-10"
+            style={{
+              backgroundImage:
+                'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
+              backgroundSize: '40px 40px',
+            }}
+          />
 
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          {/* Subtle Top Pill */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-cyan-300 text-xs font-medium mb-6 backdrop-blur-md shadow-[0_0_15px_rgba(56,189,248,0.15)] animate-in fade-in slide-in-from-top-3 duration-500">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-            <span>Built Specifically for Engineering Undergraduate Final Years</span>
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            {/* Animated Top Pill */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/25 text-cyan-300 text-xs font-medium mb-6 backdrop-blur-md shadow-[0_0_20px_rgba(56,189,248,0.2)] animate-float-subtle transition-transform">
+              <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+              <span>Built Specifically for Engineering Undergraduate Final Years</span>
+            </div>
+
+            {/* Main Headline with Smooth Shimmer Accent */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.1] sm:leading-[1.15]">
+              Turn Your Skills Into Your{' '}
+              <span className="shimmer-text">
+                Final-Year Project.
+              </span>
+            </h1>
+
+            {/* Supporting Text */}
+            <p className="mt-6 text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
+              Generate practical project ideas, discover the right technologies, build a development roadmap, and get AI mentorship from idea to implementation.
+            </p>
+
+            {/* Call to Actions with Enhanced Focus & Hover Effects */}
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                to="/create-project"
+                className="btn-primary text-sm sm:text-base px-7 py-3.5 rounded-xl flex items-center gap-2 font-semibold shadow-lg shadow-blue-600/25 group focus-visible:outline-2 focus-visible:outline-cyan-400"
+              >
+                <span>Start Building</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+
+              <Link
+                to="/how-it-works"
+                className="btn-secondary text-sm sm:text-base px-6 py-3.5 rounded-xl font-medium focus-visible:outline-2 focus-visible:outline-blue-500"
+              >
+                See How It Works
+              </Link>
+            </div>
+
+            {/* Interactive Hero Visual Pipeline */}
+            <div className="mt-14 sm:mt-16">
+              <WorkflowVisual />
+            </div>
           </div>
-
-          {/* Main Headline */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.1] sm:leading-[1.15]">
-            Turn Your Skills Into Your{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500">
-              Final-Year Project.
-            </span>
-          </h1>
-
-          {/* Supporting Text */}
-          <p className="mt-6 text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Generate practical project ideas, discover the right technologies, build a development roadmap, and get AI mentorship from idea to implementation.
-          </p>
-
-          {/* Call to Actions */}
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              to="/create-project"
-              className="btn-primary text-sm sm:text-base px-7 py-3.5 rounded-xl flex items-center gap-2 font-semibold shadow-lg shadow-blue-600/25 group"
-            >
-              <span>Start Building</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-            </Link>
-
-            <Link
-              to="/how-it-works"
-              className="btn-secondary text-sm sm:text-base px-6 py-3.5 rounded-xl font-medium"
-            >
-              See How It Works
-            </Link>
-          </div>
-
-          {/* Interactive Hero Visual Pipeline */}
-          <div className="mt-14 sm:mt-16">
-            <WorkflowVisual />
-          </div>
-        </div>
-      </section>
+        </section>
 
       {/* Trust & Performance Metrics Banner */}
       <section className="border-y border-white/[0.06] bg-slate-950/40 py-8">
@@ -335,6 +336,7 @@ export const LandingPage: React.FC = () => {
           </div>
         </div>
       </section>
+      </main>
 
       <Footer />
     </div>
